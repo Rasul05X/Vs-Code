@@ -2,8 +2,15 @@ import java.util.concurrent.TimeUnit;
 
 public class centipide {
 
-    static String[][] feld = new String[5][5]; // Feld Einstellung
+    static int x = 5;
+    static int y = 5;
+    static String[][] feld = new String[y][x]; // Feld Einstellung
+
     static int snakeLenght = 2, snakePosX = 2, snakePosY = 2; // Snake Einstellung
+    static int snakeBodyX = snakePosX;
+    static int snakeBodyY = snakePosY;
+    static int[] snakeBbodyindex = new int[2];
+
     static int direction = 1; // 1=Oben 2=Rechts 3=Unten 4=Links
     static boolean checkTemp = false;
 
@@ -27,18 +34,22 @@ public class centipide {
     public static void initSnake() { // initlising the snake into the field
         feld[snakePosY][snakePosX] = "[X] ";
         for (int i = 1; i < snakeLenght; i++) {
-            feld[snakePosY + i][snakePosX] = "[O] ";
+            feld[snakeBodyY][snakeBodyX] = "[O] ";
         }
 
     }
 
     // Creat a body and replace the old one!!
+    // mit array umtaschauen!!
     public static void moveBody() {
-        for (int i = 1; i < snakeLenght; i++) {
+        for (int i = 1; i > snakeLenght; i--) { // for each lenght of the the body this for loop goes on
             switch (direction) {
                 case 1:
-                feld[snakePosY][snakePosX] = "[ ] ";
-                feld[snakePosY-i][snakePosX] = "[O] ";
+                
+                    break;
+                case 2:
+                    feld[snakePosY][snakePosX - i - i] = "[ ] "; // replace old body
+                    feld[snakePosY][snakePosX - i] = "[O] "; // place new body
                     break;
                 default:
                     break;
@@ -97,10 +108,12 @@ public class centipide {
                 case 2:
                     snakePosX++;
                     feld[snakePosY][snakePosX] = "[X] ";
+                    moveBody();
                     break;
                 case 3:
                     snakePosY++;
                     feld[snakePosY][snakePosX] = "[X] ";
+
                     break;
                 case 4:
                     snakePosX--;
@@ -136,9 +149,9 @@ public class centipide {
             ausFeld();
             moveSnake();
         }
-
     }
 }
 
 // to do:
 // Add body (only head done)
+// body as array
